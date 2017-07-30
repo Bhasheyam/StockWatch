@@ -7,20 +7,20 @@ package com.example.bhash.stockmonitor;
 public class Stock {
     private String StockSys;
     private String CompanyName;
-    private double Price;
-    private double Pricechange;
-    private double PercentageChange;
+    private String Price;
+    private String Pricechange;
+    private String PercentageChange;
     double d;
 
-    public void setPercentageChange(double percentageChange) {
+    public void setPercentageChange(String percentageChange) {
         PercentageChange = percentageChange;
     }
 
-    public void setPricechange(double pricechange) {
+    public void setPricechange(String pricechange) {
         Pricechange = pricechange;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(String price) {
         Price = price;
     }
 
@@ -41,15 +41,15 @@ public class Stock {
         return CompanyName;
     }
 
-    public double getPrice() {
+    public String getPrice() {
         return Price;
     }
 
-    public double getPricechange() {
+    public String getPricechange() {
         return Pricechange;
     }
 
-    public double getPercentageChange() {
+    public String getPercentageChange() {
         return PercentageChange;
     }
     public String toString(){

@@ -6,7 +6,7 @@
     <item
         android:icon="@drawable/ic_add_circle_black_18dp"
         android:showAsAction="ifRoom"
-        android:id="@+id/add"
+        android:id="@+id/m1"
         android:title="@string/add"
         android:visible="true"
         tools:ignore="AppCompatResource"

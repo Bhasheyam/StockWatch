@@ -1,6 +1,7 @@
 package com.example.bhash.stockmonitor;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 public class Stockviewhandler extends RecyclerView.Adapter<StockViewholder>{
     public ArrayList<Stock> viewdata;
     public StockViewer ref;
+    private static final String TAG = "Stockviewhandler";
     public Stockviewhandler(ArrayList<Stock> data,StockViewer s){
         viewdata=data;
         ref=s;
@@ -33,9 +35,10 @@ public class Stockviewhandler extends RecyclerView.Adapter<StockViewholder>{
         Stock temp=viewdata.get(position);
         holder.t1.setText(temp.getStockSys());
         holder.t2.setText(temp.getCompanyName());
-        holder.p1.setText(Double.toString(temp.getPrice()));
-        holder.p3.setText(Double.toString(temp.getPricechange()));
-        holder.p4.setText(Double.toString(temp.getPercentageChange()));
+        holder.p1.setText(temp.getPrice());
+        holder.p3.setText(temp.getPricechange());
+        holder.p4.setText(temp.getPercentageChange());
+        Log.d(TAG, "onBindViewHolder: Came and setup the Recycle view");
 
 
     }
