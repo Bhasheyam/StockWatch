@@ -1,5 +1,6 @@
 package com.example.bhash.stockmonitor;
 
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
@@ -11,7 +12,7 @@ import android.widget.TextView;
 public class StockViewholder extends RecyclerView.ViewHolder {
     public TextView t1;
     public TextView t2;
-    public   TextView p1;
+    public TextView p1;
     public TextView p2;
     public TextView p3;
     public TextView p4;
@@ -23,8 +24,36 @@ public class StockViewholder extends RecyclerView.ViewHolder {
         p2=(TextView)itemView.findViewById(R.id.p2);
         p3=(TextView)itemView.findViewById(R.id.p3);
         p4=(TextView)itemView.findViewById(R.id.p4);
+    }
+    public void setTheme1(){
+        t1.setTextColor(Color.parseColor("#0000e6"));
+        t2.setTextColor(Color.parseColor("#0000e6"));
+        p1.setTextColor(Color.parseColor("#0000e6"));
+        p3.setTextColor(Color.parseColor("#0000e6"));
+        p4.setTextColor(Color.parseColor("#0000e6"));
+        p2.setTextColor(Color.parseColor("#0000e6"));
+        p2.setCompoundDrawablesWithIntrinsicBounds(0,R.drawable.blueup,0,0);
 
 
+    }
+    public void setTheme2(){
+        //#ff0000
+        t1.setTextColor(Color.parseColor("#ff0000"));
+        t2.setTextColor(Color.parseColor("#ff0000"));
+        p1.setTextColor(Color.parseColor("#ff0000"));
+        p3.setTextColor(Color.parseColor("#ff0000"));
+        p4.setTextColor(Color.parseColor("#ff0000"));
+        p2.setTextColor(Color.parseColor("#ff0000"));
+        p2.setCompoundDrawablesWithIntrinsicBounds(0,R.drawable.reddown,0,0);
 
+    }
+
+    public void setTheme3() {
+        t1.setTextColor(Color.parseColor("#ffff33"));
+        t2.setTextColor(Color.parseColor("#ffff33"));
+        p1.setTextColor(Color.parseColor("#ffff33"));
+        p3.setTextColor(Color.parseColor("#ffff33"));
+        p4.setTextColor(Color.parseColor("#ffff33"));
+        p2.setTextColor(Color.parseColor("#ffff33"));
     }
 }

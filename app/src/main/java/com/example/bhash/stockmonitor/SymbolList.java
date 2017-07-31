@@ -85,7 +85,9 @@ public class SymbolList extends SQLiteOpenHelper {
     }
 
     public void Deleteentery(String s) {
-        database.delete(Table_Title, "Sym = ?", new String[]{s});
+        database.delete(Table_Title, Sym +"= ?", new String[]{s});
+
+
 
 
     }

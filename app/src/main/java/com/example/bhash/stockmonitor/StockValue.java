@@ -27,6 +27,7 @@ public class StockValue extends AsyncTask<String,Void,String> {
     private final String stocknameurl="http://finance.google.com/finance/info";
        public HashMap<String,String> parsedata=new HashMap<>();
     private String res="no";
+    public String dec;
 
     public boolean resultcheck=false;
     public Stock stock=new Stock();
@@ -39,6 +40,7 @@ public class StockValue extends AsyncTask<String,Void,String> {
 
     @Override
     protected String doInBackground(String... params) {
+        dec=params[2];
         Log.d(TAG, "doInBackground: came to value "+params[0]+params[1]);
         Uri.Builder Stocksearch=Uri.parse(stocknameurl).buildUpon();
         Stocksearch.appendQueryParameter("client","ig");
@@ -103,7 +105,7 @@ public class StockValue extends AsyncTask<String,Void,String> {
         if(res.equals("yes")){
             reference.Nostock();
         }else {
-            reference.updateTask2(stock);
+            reference.updateTask2(stock,dec);
         }
 
     }

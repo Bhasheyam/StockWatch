@@ -3,7 +3,9 @@ package com.example.bhash.stockmonitor;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.ConnectivityManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
@@ -33,6 +35,7 @@ private RecyclerView r1;
     private Stockviewhandler adapter;
     private SwipeRefreshLayout s1;
     private static final String TAG = "StockViewer";
+    private String Url= "http://www.marketwatch.com/investing/stock/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +48,14 @@ private RecyclerView r1;
         s1=(SwipeRefreshLayout)findViewById(R.id.s1);
         r1.setAdapter(adapter);
         SymbolList.getInstance(this).setupDb();
+        s1.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener(){
+
+            @Override
+            public void onRefresh() {
+                onResume();
+                s1.setRefreshing(false);
+            }
+        });
 
 
     }
@@ -76,6 +87,11 @@ private RecyclerView r1;
     @Override
     public void onClick(View v) {
         final int i=r1.getChildLayoutPosition(v);
+        Stock s=maindata.get(i);
+        String Urlu=Url+s.getStockSys();
+        Intent i1=new Intent(Intent.ACTION_VIEW);
+        i1.setData(Uri.parse(Urlu));
+        startActivity(i1);
 
 
     }
@@ -88,10 +104,11 @@ private RecyclerView r1;
 
     @Override
     protected void onResume() {
+        maindata.clear();
         ArrayList<String[]> dbdata=SymbolList.getInstance(this).Load();
         for(String[] s:dbdata){
             StockValue create=new StockValue(this);
-            create.execute(s[0],s[1]);
+            create.execute(s[0],s[1],"load");
         }
         super.onPostResume();
     }
@@ -215,6 +232,7 @@ else
         for(String[] m:sd){
             if(m[0].equals(ss[0])){
                 alreadyExsist();
+                a=true;
             }
         }
         if(a){
@@ -222,7 +240,7 @@ else
         }
                 else{
             StockValue d=new StockValue(this);
-            d.execute(ss[0],ss[1]);
+            d.execute(ss[0],ss[1],"add");
             Log.d(TAG, "MakeSelection: Came here before crash"+ss[0]+ss[1]);
         }
 
@@ -245,10 +263,16 @@ else
     }
 
 
-    public void updateTask2(Stock ss){
+    public void updateTask2(Stock ss,String decision){
+        if(decision.equals("load")){
+            maindata.add(ss);
+            adapter.notifyDataSetChanged();
+        }
+        else if(decision.equals("add")){
         maindata.add(ss);
+        Log.d(TAG, "updateTask2: "+ss.getCompanyName());
         SymbolList.getInstance(this).addentry(ss);
-        adapter.notifyDataSetChanged();
+        adapter.notifyDataSetChanged();}
 
 
     }
