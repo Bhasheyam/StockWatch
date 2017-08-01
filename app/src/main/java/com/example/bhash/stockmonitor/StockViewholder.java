@@ -55,5 +55,6 @@ public class StockViewholder extends RecyclerView.ViewHolder {
         p3.setTextColor(Color.parseColor("#ffff33"));
         p4.setTextColor(Color.parseColor("#ffff33"));
         p2.setTextColor(Color.parseColor("#ffff33"));
+        p2.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0);
     }
 }
