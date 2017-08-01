@@ -25,6 +25,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -36,26 +38,30 @@ private RecyclerView r1;
     private SwipeRefreshLayout s1;
     private static final String TAG = "StockViewer";
     private String Url= "http://www.marketwatch.com/investing/stock/";
+    boolean working=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stock_viewer);
-        r1=(RecyclerView)findViewById(R.id.R1);
-        maindata=new ArrayList<Stock>();
-        adapter=new Stockviewhandler(maindata,this);
-        r1.setLayoutManager(new LinearLayoutManager(this));
-        s1=(SwipeRefreshLayout)findViewById(R.id.s1);
-        r1.setAdapter(adapter);
-        SymbolList.getInstance(this).setupDb();
-        s1.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener(){
 
-            @Override
-            public void onRefresh() {
-                onResume();
-                s1.setRefreshing(false);
-            }
-        });
+            r1=(RecyclerView)findViewById(R.id.R1);
+            maindata=new ArrayList<Stock>();
+            adapter=new Stockviewhandler(maindata,this);
+            r1.setLayoutManager(new LinearLayoutManager(this));
+            s1=(SwipeRefreshLayout)findViewById(R.id.s1);
+            r1.setAdapter(adapter);
+            SymbolList.getInstance(this).setupDb();
+            s1.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener(){
+
+                @Override
+                public void onRefresh() {
+                    onResume();
+                    s1.setRefreshing(false);
+                }
+            });
+
+
 
 
     }
@@ -80,8 +86,19 @@ private RecyclerView r1;
     }
     public  boolean isConnected()
     {
+        try{
         ConnectivityManager cm = (ConnectivityManager) getSystemService(this.CONNECTIVITY_SERVICE);
-        return cm.getActiveNetworkInfo().isConnectedOrConnecting();
+        if (cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isAvailable() && cm.getActiveNetworkInfo().isConnected())
+            return true;
+        else
+            return false;
+    }
+    catch (Exception e)
+    {
+        e.printStackTrace();
+    }
+
+    return false;
     }
 
     @Override
@@ -104,11 +121,17 @@ private RecyclerView r1;
 
     @Override
     protected void onResume() {
-        maindata.clear();
-        ArrayList<String[]> dbdata=SymbolList.getInstance(this).Load();
-        for(String[] s:dbdata){
-            StockValue create=new StockValue(this);
-            create.execute(s[0],s[1],"load");
+        if(isConnected()) {
+            maindata.clear();
+            ArrayList<String[]> dbdata = SymbolList.getInstance(this).Load();
+            for (String[] s : dbdata) {
+                StockValue create = new StockValue(this);
+                create.execute(s[0], s[1], "load");
+            }
+
+        }
+        else{
+           noconnection();
         }
         super.onPostResume();
     }
@@ -152,22 +175,25 @@ private RecyclerView r1;
 
     }
     else{
-        AlertDialog.Builder userinput = new AlertDialog.Builder(this);
-        userinput.setMessage("No Network Connection");
-        userinput.setMessage("Stock Cannot be added without Internet Connection");
-        userinput.setPositiveButton("close",new DialogInterface.OnClickListener(){
 
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                finish();
-            }
-        });
-        AlertDialog d=userinput.create();
-        d.show();
-
+         noconnection();
     }
     }
+   public void noconnection(){
+       Log.d(TAG, "noconnection: came");
+       AlertDialog.Builder builder = new AlertDialog.Builder(this);
+       builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+           public void onClick(DialogInterface dialog, int id) {
 
+           }
+       });
+       Log.d(TAG, "noconnection: came1");
+       builder.setMessage("App Requires Internet ");
+       builder.setTitle("No Network");
+       AlertDialog dialog = builder.create();
+       dialog.show();
+
+   }
 
     //Task1
 public void updateTask1(ArrayList<String[]> s ,boolean r){
@@ -266,10 +292,12 @@ else
     public void updateTask2(Stock ss,String decision){
         if(decision.equals("load")){
             maindata.add(ss);
+            Collections.sort(maindata,Stock.sortit);
             adapter.notifyDataSetChanged();
         }
         else if(decision.equals("add")){
         maindata.add(ss);
+            Collections.sort(maindata,Stock.sortit);
         Log.d(TAG, "updateTask2: "+ss.getCompanyName());
         SymbolList.getInstance(this).addentry(ss);
         adapter.notifyDataSetChanged();}

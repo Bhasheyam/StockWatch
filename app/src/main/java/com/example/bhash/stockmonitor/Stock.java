@@ -1,10 +1,12 @@
 package com.example.bhash.stockmonitor;
 
+import java.util.Comparator;
+
 /**
  * Created by bhash on 25-07-2017.
  */
 
-public class Stock {
+public class Stock implements Comparable<Stock>{
     private String StockSys;
     private String CompanyName;
     private String Price;
@@ -56,4 +58,19 @@ public class Stock {
         return StockSys+CompanyName+Price+Pricechange+PercentageChange;
     }
 
+    @Override
+    public int compareTo(Stock o) {
+        return 0;
+    }
+    public static Comparator<Stock> sortit
+            = new Comparator<Stock>() {
+
+        @Override
+        public int compare(Stock o1, Stock o2) {
+            String s=o1.getStockSys().toUpperCase();
+            String s1=o2.getStockSys().toUpperCase();
+            return s.compareTo(s1);
+        }
+
+    };
 }

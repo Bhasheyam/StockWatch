@@ -34,22 +34,37 @@ public class Stockviewhandler extends RecyclerView.Adapter<StockViewholder>{
     @Override
     public void onBindViewHolder(StockViewholder holder, int position) {
         Stock temp=viewdata.get(position);
-        String temps=temp.getPricechange().substring(0,1);
-        if(temps.equals("+")){
-            holder.setTheme1();
-        }else if (temps.equals("-")){
-            holder.setTheme2();
-        }else{
-            holder.setTheme3();
-        }
-        holder.t1.setText(temp.getStockSys());
-        holder.t2.setText(temp.getCompanyName());
-        holder.p1.setText(temp.getPrice());
-        holder.p3.setText(temp.getPricechange());
-        holder.p4.setText("("+temp.getPercentageChange()+")");
-        Log.d(TAG, "onBindViewHolder: Came and setup the Recycle view");
+       try {
+           String temps = temp.getPricechange().substring(0, 1);
 
 
+           if (temps.equals("+")) {
+               holder.setTheme1();
+           } else if (temps.equals("-")) {
+               holder.setTheme2();
+           } else {
+               holder.setTheme3();
+           }
+           holder.t1.setText(temp.getStockSys());
+           holder.t2.setText(temp.getCompanyName());
+           holder.p1.setText(temp.getPrice());
+           holder.p3.setText(temp.getPricechange());
+           holder.p4.setText("(" + temp.getPercentageChange() + ")");
+           Log.d(TAG, "onBindViewHolder: Came and setup the Recycle view");
+
+       }
+       catch (Exception e){
+           Log.d(TAG, "onBindViewHolder: Error in the Json Data Some are Empty");
+           holder.setTheme3();
+           holder.t1.setText(temp.getStockSys()+"- Error ");
+           holder.t2.setText("Some Data are Empty");
+           holder.p1.setText("");
+           holder.p3.setText("");
+           holder.p4.setText("");
+
+           e.getStackTrace();
+
+       }
     }
 
     @Override

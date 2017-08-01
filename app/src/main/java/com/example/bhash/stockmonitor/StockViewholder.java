@@ -26,13 +26,13 @@ public class StockViewholder extends RecyclerView.ViewHolder {
         p4=(TextView)itemView.findViewById(R.id.p4);
     }
     public void setTheme1(){
-        t1.setTextColor(Color.parseColor("#0000e6"));
-        t2.setTextColor(Color.parseColor("#0000e6"));
-        p1.setTextColor(Color.parseColor("#0000e6"));
-        p3.setTextColor(Color.parseColor("#0000e6"));
-        p4.setTextColor(Color.parseColor("#0000e6"));
-        p2.setTextColor(Color.parseColor("#0000e6"));
-        p2.setCompoundDrawablesWithIntrinsicBounds(0,R.drawable.blueup,0,0);
+        t1.setTextColor(Color.parseColor("#00cc00"));
+        t2.setTextColor(Color.parseColor("#00cc00"));
+        p1.setTextColor(Color.parseColor("#00cc00"));
+        p3.setTextColor(Color.parseColor("#00cc00"));
+        p4.setTextColor(Color.parseColor("#00cc00"));
+        p2.setTextColor(Color.parseColor("#00cc00"));
+        p2.setCompoundDrawablesWithIntrinsicBounds(0,R.drawable.greenup,0,0);
 
 
     }
